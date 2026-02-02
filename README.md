@@ -38,11 +38,11 @@ time visualize_ulp_error -t5 -- plots 'let
     (;
         parent_dir = "/home/nsajko/ulp_error_plots",
         downsampled_length = 650,
-        factor = 20000,
+        factor = 50000,
         window_size = 10,
         bf_precision = 140,
         no_scoped_values = true,
-        width = 1500px,
+        width = 1200px,
         height = 500px,
         functions = (
             (acos, (-o, o)),
