@@ -8,10 +8,8 @@ module VisualizeULPError
     include("FloatingPointExhaustiveIterators.jl")
     include("ErrorPlotting.jl")
     using Gadfly: Gadfly, px
-    using Cairo: Cairo
-    using Fontconfig: Fontconfig
     function draw(plot; file_name, width, height)
-        Gadfly.draw(Gadfly.PNG(string(file_name, ".png"), width, height), plot)
+        Gadfly.draw(Gadfly.SVG(string(file_name, ".svg"), width, height), plot)
     end
     function plot(x, y)
         Gadfly.plot(Gadfly.Geom.line; x, y)

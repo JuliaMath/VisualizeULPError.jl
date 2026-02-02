@@ -18,8 +18,8 @@ time visualize_ulp_error -t5 -- plot '(;
     window_size = 10,
     bf_precision = 140,        # `BigFloat` precision
     no_scoped_values = true,
-    width = 1500px,            # image (PNG) width
-    height = 500px,            # image (PNG) height
+    width = 1500px,            # image width
+    height = 500px,            # image height
     func = acos,
     itv = (-1.0, 1.0),
 )'
