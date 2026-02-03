@@ -43,8 +43,9 @@ module VisualizeULPError
             gc()
         end
     end
+    const eval_string = eval ∘ Meta.parse
     function do_plot(args)
-        (; parent_dir, func, itv, downsampled_length, factor, window_size, bf_precision, no_scoped_values, width, height) = eval(Meta.parse(args[1]))
+        (; parent_dir, func, itv, downsampled_length, factor, window_size, bf_precision, no_scoped_values, width, height) = eval_string(args[1])
         experiment = (; downsampled_length, factor, window_size, bf_precision, no_scoped_values)
         visualization = (; width, height)
         funct = (; func, itv)
@@ -52,7 +53,7 @@ module VisualizeULPError
         do_plot_inferred(Val(opts); parent_dir)
     end
     function do_plots(args)
-        (; parent_dir, functions, downsampled_length, factor, window_size, bf_precision, no_scoped_values, width, height) = eval(Meta.parse(args[1]))
+        (; parent_dir, functions, downsampled_length, factor, window_size, bf_precision, no_scoped_values, width, height) = eval_string(args[1])
         experiment = (; downsampled_length, factor, window_size, bf_precision, no_scoped_values)
         visualization = (; width, height)
         do_plots_inferred(Val(experiment), Val(visualization); parent_dir, functions)
