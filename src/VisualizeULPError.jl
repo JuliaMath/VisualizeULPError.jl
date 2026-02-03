@@ -39,7 +39,7 @@ module VisualizeULPError
         for (func, itv) ∈ functions
             funct = (; func, itv)
             opts = (; experiment, visualization, funct)
-            @time func do_plot_inferred(Val(opts); parent_dir)
+            @time func @invokelatest do_plot_inferred(Val(opts); parent_dir)
             gc()
         end
     end
@@ -50,7 +50,7 @@ module VisualizeULPError
         visualization = (; width, height)
         funct = (; func, itv)
         opts = (; experiment, visualization, funct)
-        do_plot_inferred(Val(opts); parent_dir)
+        @invokelatest do_plot_inferred(Val(opts); parent_dir)
     end
     function do_plots(args)
         (; parent_dir, functions, downsampled_length, factor, window_size, bf_precision, no_scoped_values, width, height) = eval_string(args[1])
