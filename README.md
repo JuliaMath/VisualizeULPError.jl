@@ -27,7 +27,11 @@ time visualize_ulp_error -t5 -- plot '(;
 
 #### Subcommand `plots`
 
-Visualize the numerical error for the transcendental functions that come with Julia:
+Visualize the numerical error for the transcendental functions that come with Julia.
+
+See the resulting plots on the companion Julia Discourse topic:
+
+* https://discourse.julialang.org/t/floating-point-accuracy-visualization-example-the-ulp-error-for-each-math-function-coming-with-julia/135392?u=nsajko
 
 ```sh
 time visualize_ulp_error -t5 -- plots 'let
