@@ -104,3 +104,32 @@ time visualize_ulp_error -t5 -- plots 'let
     )
 end'
 ```
+
+#### Measure the error of a custom function
+
+To measure the error of an arbitrary function, define it when providing the command options:
+
+```sh
+visualize_ulp_error plot 'let sin_fast
+    function sin_fast(x::BigFloat)  # accurate reference
+        sin(x)
+    end
+    function sin_fast(x::Float64)   # fast approximation of `sin(x)` for `abs(x) ≤ 0.125`
+        # Found with Sollya, using this command: `fpminimax(sin(x), [|1, 3, 5|], [|D...|], [0; 0.125]);`.
+        p = (0.9999999999763268, -0.16666663941291426, 0.008328683245851542)
+        x * evalpoly(x * x, p)  # odd polynomial composed from simpler polynomials
+    end
+    (;
+        parent_dir = "/home/nsajko/ulp_error_plots",
+        downsampled_length = 650,
+        factor = 6000,
+        window_size = 10,
+        bf_precision = 140,
+        no_scoped_values = true,
+        width = 1100px,
+        height = 500px,
+        func = sin_fast,
+        itv = (-0.125, 0.125),
+    )
+end'
+```
