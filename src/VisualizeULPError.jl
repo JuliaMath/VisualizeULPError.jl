@@ -7,7 +7,10 @@ module VisualizeULPError
     include("SlidingWindowMaximumIterators.jl")
     include("FloatingPointExhaustiveIterators.jl")
     include("ErrorPlotting.jl")
-    using Gadfly: Gadfly, px
+    using Gadfly: Gadfly
+    module UserModule
+        using Gadfly: px
+    end
     function draw(plot; file_name, width, height)
         Gadfly.draw(Gadfly.SVG(string(file_name, ".svg"), width, height), plot)
     end
@@ -43,7 +46,7 @@ module VisualizeULPError
             gc()
         end
     end
-    const eval_string = eval ∘ Meta.parse
+    const eval_string = UserModule.eval ∘ Meta.parse
     function do_plot(args)
         (; parent_dir, func, itv, downsampled_length, factor, window_size, bf_precision, no_scoped_values, width, height) = eval_string(args[1])
         experiment = (; downsampled_length, factor, window_size, bf_precision, no_scoped_values)
