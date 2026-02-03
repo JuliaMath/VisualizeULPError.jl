@@ -17,6 +17,11 @@ module VisualizeULPError
     function error_plot(f::F; itv, downsampled_length::Int, factor::Int, window_size::Int) where {F}
         ErrorPlotting.error_plot(plot, f ∘ big, f, itv; downsampled_length, factor, window_size)
     end
+    function gc()
+        GC.gc()  # workaround for lacking Julia GC heuristics?
+        GC.gc()  # not sure why, but this second full GC also manages to free some garbage?
+        # @ccall malloc_trim(0::Cint)::Cvoid  # for GNU libc
+    end
     function do_plot_inferred(::Val{opts}; parent_dir) where {opts}
         function f()
             (; downsampled_length, factor, window_size) = opts.experiment
@@ -35,6 +40,7 @@ module VisualizeULPError
             funct = (; func, itv)
             opts = (; experiment, visualization, funct)
             @time func do_plot_inferred(Val(opts); parent_dir)
+            gc()
         end
     end
     function do_plot(args)
