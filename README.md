@@ -133,3 +133,22 @@ visualize_ulp_error plot 'let sin_fast
     )
 end'
 ```
+
+#### Disable smart functionality, for plotting a small number of floating-point numbers
+
+To plot the error on a tiny subinterval on the domain of the function, it might be desirable to disable all smart functionality, letting each floating-point number on the interval be plotted as a single, raw, data point:
+
+```sh
+visualize_ulp_error -t5 -- plot '(;
+    parent_dir = "/home/nsajko/ulp_error_plots",
+    downsampled_length = 1000,        # this is excessive but there is no harm in that
+    factor = 1,                       # disable downsampling
+    window_size = 1,                  # disable smoothing
+    bf_precision = 300,               # extra high precision, just to be safe
+    no_scoped_values = true,
+    width = 500px,
+    height = 300px,
+    func = asech,
+    itv = (prevfloat(1.0, 99), 1.0),  # only consider the last hundred `Float64` numbers in the domain of `asech`
+)'
+```
