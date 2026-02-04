@@ -47,19 +47,20 @@ module VisualizeULPError
         end
     end
     const eval_string = UserModule.eval ∘ Meta.parse
-    function do_plot(args)
-        (; parent_dir, func, itv, downsampled_length, factor, window_size, bf_precision, no_scoped_values, width, height) = eval_string(args[1])
-        experiment = (; downsampled_length, factor, window_size, bf_precision, no_scoped_values)
-        visualization = (; width, height)
-        funct = (; func, itv)
-        opts = (; experiment, visualization, funct)
-        @invokelatest do_plot_inferred(Val(opts); parent_dir)
-    end
-    function do_plots(args)
-        (; parent_dir, functions, downsampled_length, factor, window_size, bf_precision, no_scoped_values, width, height) = eval_string(args[1])
+    function do_plots_impl((; parent_dir, functions, downsampled_length, factor, window_size, bf_precision, no_scoped_values, width, height))
         experiment = (; downsampled_length, factor, window_size, bf_precision, no_scoped_values)
         visualization = (; width, height)
         do_plots_inferred(Val(experiment), Val(visualization); parent_dir, functions)
+    end
+    function do_plot_impl((; parent_dir, func, itv, downsampled_length, factor, window_size, bf_precision, no_scoped_values, width, height))
+        functions = ((func, itv),)
+        do_plots_impl((; parent_dir, functions, downsampled_length, factor, window_size, bf_precision, no_scoped_values, width, height))
+    end
+    function do_plot(args)
+        do_plot_impl(eval_string(args[1]))
+    end
+    function do_plots(args)
+        do_plots_impl(eval_string(args[1]))
     end
     function (@main)(args)
         if isempty(args)
