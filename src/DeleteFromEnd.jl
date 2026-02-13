@@ -8,9 +8,8 @@ module DeleteFromEnd
         if l < n
             @noinline cannot_delete_more_than_length()
         end
-        for _ ∈ 1:n
-            pop!(c)
-        end
+        e = lastindex(c)
+        deleteat!(c, (e - (n - 1)):e)
         c
     end
 end
